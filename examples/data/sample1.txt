@@ -1,0 +1,9 @@
+Alan Turing was a British mathematician and computer scientist born in London in 1912. He made significant contributions to the field of computer science and artificial intelligence. During World War II, Turing worked at Bletchley Park, where he played a crucial role in breaking the German Enigma code.
+
+In 1936, Turing published his paper "On Computable Numbers," which introduced the concept of the Turing machine. This theoretical device became fundamental to the development of computer science. The paper was published in the Proceedings of the London Mathematical Society.
+
+At Bletchley Park, Turing led the Hut 8 team and developed the Bombe machine, which was instrumental in decrypting German naval communications. His work significantly contributed to the Allied victory in World War II.
+
+After the war, Turing joined the National Physical Laboratory, where he designed the ACE (Automatic Computing Engine). He later moved to the University of Manchester, where he worked on early computer development and published his seminal paper "Computing Machinery and Intelligence" in 1950.
+
+The Turing Award, established by the Association for Computing Machinery (ACM) in 1966, is considered the highest distinction in computer science. It honors Turing's lasting impact on the field and is often called the "Nobel Prize of Computing."
