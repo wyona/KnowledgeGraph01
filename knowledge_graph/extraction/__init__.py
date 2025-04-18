@@ -11,6 +11,7 @@ ENTITY_TYPES = [
     "PERSON",
     "EVENT",
     "ORGANIZATION",
+    "UNIVERSITY",
     "CONCEPT",
     "DATE",
     "LOCATION"
@@ -25,6 +26,22 @@ RELATIONSHIP_SCHEMA = {
     "INFLUENCES": {
         "valid_subjects": ["PERSON", "ORGANIZATION", "EVENT", "CONCEPT"],
         "valid_objects": ["PERSON", "ORGANIZATION", "EVENT", "CONCEPT"]
+    },
+    "FATHER_OF": {
+        "valid_subjects": ["PERSON"],
+        "valid_objects": ["PERSON"]
+    },
+    "STUDIES_AT": {
+        "valid_subjects": ["PERSON"],
+        "valid_objects": ["UNIVERSITY"]
+    },
+    "HUSBAND_OF": {
+        "valid_subjects": ["PERSON"],
+        "valid_objects": ["PERSON"]
+    },
+    "BROTHER_OF": {
+        "valid_subjects": ["PERSON"],
+        "valid_objects": ["PERSON"]
     },
     "RELATED_TO": {
         "valid_subjects": ["PERSON", "ORGANIZATION", "EVENT", "CONCEPT"],
@@ -45,6 +62,7 @@ ENTITY_PROPERTIES = {
     "PERSON": ["name", "id"],
     "EVENT": ["name", "id", "timestamp"],
     "ORGANIZATION": ["name", "id"],
+    "UNIVERSITY": ["name", "id"],
     "CONCEPT": ["name", "id"],
     "DATE": ["value", "id"],
     "LOCATION": ["name", "id"]
