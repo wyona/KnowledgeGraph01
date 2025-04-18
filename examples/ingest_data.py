@@ -59,25 +59,33 @@ def process_text_file(
         
         # Extract entities and relationships
         for text in batch:
+            print(f"\nExtract entities and relationships from text:\n{text}")
             result = extractor.extract(text)
+            #print(f"\nCompletion result:\n{result.to_dict()}")
             
             # Store entities
             for entity in result.entities:
                 try:
                     # Create node in Neo4j
-                    node_id = schema_manager.create_node(
-                        label=entity["type"],
-                        properties=entity
-                    )
-                    
-                    # Store embedding in vector store
-                    if "embedding" in entity:
-                        vector_store.add_vectors(
-                            vectors=np.array([entity["embedding"]]),
-                            node_ids=[node_id]
+                    response = input(f"\nDo you want to add entity '{entity['name']}' to Knowledge Graph / Neo4j? (YES/no): ").strip().lower()
+                    if response in ['', 'yes', 'y']:
+                        print(f"\tAdd entity to Neo4j: {entity['name']}")
+                        node_id = schema_manager.create_node(
+                            label=entity["type"],
+                            properties=entity
                         )
-                        
-                    stats["total_entities"] += 1
+
+                        # Store embedding in vector store
+                        if "embedding" in entity:
+                            print(f"\tAdd embedding of entity to vector store ...")
+                            vector_store.add_vectors(
+                               vectors=np.array([entity["embedding"]]),
+                               node_ids=[node_id]
+                            )
+
+                        stats["total_entities"] += 1
+                    else:
+                        print("\tEntity skipped.")
                     
                 except Exception as e:
                     print(f"Error storing entity: {e}")
@@ -85,17 +93,22 @@ def process_text_file(
             # Store relationships
             for rel in result.relationships:
                 try:
-                    schema_manager.create_relationship(
-                        from_id=rel["subject"]["id"],
-                        to_id=rel["object"]["id"],
-                        rel_type=rel["type"],
-                        properties={
-                            k: v for k, v in rel.items()
-                            if k not in ["subject", "object", "type"]
-                        }
-                    )
+                    response = input(f"\nDo you want to add relationship '{rel}' to Knowledge Graph / Neo4j? (YES/no): ").strip().lower()
+                    if response in ['', 'yes', 'y']:
+                        print(f"\tAdd relationship to Neo4j: {rel}")
+                        schema_manager.create_relationship(
+                            from_id=rel["subject"]["id"],
+                            to_id=rel["object"]["id"],
+                            rel_type=rel["type"],
+                            properties={
+                                k: v for k, v in rel.items()
+                                if k not in ["subject", "object", "type"]
+                            }
+                        )
                     
-                    stats["total_relationships"] += 1
+                        stats["total_relationships"] += 1
+                    else:
+                        print("\tRelationship skipped.")
                     
                 except Exception as e:
                     print(f"Error storing relationship: {e}")
