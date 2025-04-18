@@ -1,0 +1,3 @@
+.venv
+examples/.env
+__pycache__
