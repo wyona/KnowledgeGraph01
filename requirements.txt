@@ -1,0 +1,6 @@
+numpy
+dotenv
+neo4j
+requests
+langchain
+faiss-cpu
