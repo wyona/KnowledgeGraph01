@@ -81,6 +81,7 @@ class LLMExtractor(BaseExtractor):
     
     def __init__(
         self,
+        #model_name: str = "mistral",
         model_name: str = "llama2",
         base_url: str = "http://localhost:11434",
         embedding_model: str = "nomic-embed-text",
@@ -119,6 +120,7 @@ class LLMExtractor(BaseExtractor):
         Returns:
             Model completion
         """
+        print(f"Generate completion using Ollama API (Model: {self.model_name}) ...")
         response = requests.post(
             f"{self.base_url}/api/generate",
             json={
@@ -143,6 +145,7 @@ class LLMExtractor(BaseExtractor):
         Returns:
             Embedding vector
         """
+        print(f"Get embeddings using Ollama API (Model: {self.embedding_model}) ...")
         response = requests.post(
             f"{self.base_url}/api/embeddings",
             json={
@@ -164,9 +167,14 @@ class LLMExtractor(BaseExtractor):
         """
         # Generate LLM prompt
         prompt = self.prompt.format(text=text)
+        #print(f"\nPrompt:\n{prompt}")
         
         # Get structured output from LLM
-        llm_output = self._generate_completion(prompt)
+        if False:
+            llm_output = self._generate_completion(prompt)
+        else:
+            with open('mock-data/entities-relationship-1.json', 'r') as file:
+                llm_output = file.read()
         
         try:
             # Parse JSON output
@@ -181,6 +189,7 @@ class LLMExtractor(BaseExtractor):
                     "name": entity["name"],
                     "confidence": entity["confidence"]
                 }
+                print(f"Extracted entity: {entity_dict}")
                 
                 # Add optional properties
                 if "timestamp" in entity:
@@ -195,6 +204,7 @@ class LLMExtractor(BaseExtractor):
                 
             relationships = []
             for rel in parsed_output["relationships"]:
+                print(f"Extracted relationship: {rel}")
                 rel_dict = {
                     "type": rel["type"],
                     "subject": {
