@@ -50,23 +50,27 @@ class BaseExtractor(ABC):
             True if relationship is valid, False otherwise
         """
         if "type" not in relationship or relationship["type"] not in self.relationship_schema:
+            print(f"Relationship {relationship['subject']} not valid because of missing type")
             return False
 
         schema = self.relationship_schema[relationship["type"]]
         
         # Check if subject and object entities exist and have valid types
         if "subject" not in relationship or "object" not in relationship:
+            print("Relationship not valid because of missing subject")
             return False
             
         subject = relationship["subject"]
         object_ = relationship["object"]
         
         if not (self.validate_entity(subject) and self.validate_entity(object_)):
+            print("Relationship not valid, because subject and object are not valid")
             return False
             
         # Validate entity type combinations
         if (subject["type"] not in schema["valid_subjects"] or
             object_["type"] not in schema["valid_objects"]):
+            print("Relationship not valid, because type non in schema")
             return False
             
         return True
