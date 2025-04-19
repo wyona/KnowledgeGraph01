@@ -90,6 +90,7 @@ cp .env.example .env
 ```
 
 4. Install and start Neo4j:
+
 ```bash
 # Using Docker
 docker run \
@@ -98,6 +99,8 @@ docker run \
     -e NEO4J_AUTH=neo4j/your_password \
     neo4j:latest
 ```
+
+Add GDS plugin https://github.com/neo4j/graph-data-science/releases to folder plugins/
 
 ## Usage
 
