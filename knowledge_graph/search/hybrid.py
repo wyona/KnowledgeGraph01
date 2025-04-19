@@ -59,6 +59,9 @@ class HybridSearchEngine:
             query_vector,
             k=params['max_results'] * 2  # Get extra candidates for reranking
         )
+
+        for node_id in node_ids:
+            print(f"Initial candidate found: {node_id}")
         
         # Convert distances to similarity scores (1 - normalized distance)
         vector_scores = 1 - (distances - distances.min()) / (distances.max() - distances.min())
@@ -152,7 +155,10 @@ class HybridSearchEngine:
         with self.neo4j_driver.session() as session:
             for i, node_id in enumerate(node_ids):
                 if node_id is None:
+                    print(f"Graph does not contain node '{node_id}'!")
                     continue
+                else:
+                    print(f"Traverse graph starting at node '{node_id}' ...")
                     
                 # Build query based on filters
                 query_parts = ["MATCH (n) WHERE n.id = $node_id"]
