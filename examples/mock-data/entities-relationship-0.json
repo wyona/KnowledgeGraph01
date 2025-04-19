@@ -1,0 +1,231 @@
+{
+  "entities": [
+    {
+      "id": "m1",
+      "type": "PERSON",
+      "name": "Michael Wechner",
+      "timestamp": "1998-01-01",
+      "properties": {},
+      "confidence": 0.95
+    },
+    {
+      "id": "m2",
+      "type": "PERSON",
+      "name": "Levi Brucker",
+      "timestamp": "1998-01-01",
+      "properties": {},
+      "confidence": 0.95
+    },
+    {
+      "id": "m3",
+      "type": "PERSON",
+      "name": "Vanya Brucker",
+      "timestamp": "1998-01-01",
+      "properties": {},
+      "confidence": 0.95
+    },
+    {
+      "id": "m4",
+      "type": "PERSON",
+      "name": "Ezra Brucker",
+      "timestamp": "1998-01-01",
+      "properties": {},
+      "confidence": 0.95
+    },
+    {
+      "id": "m5",
+      "type": "PERSON",
+      "name": "Katerina Oliveros",
+      "timestamp": "1998-01-01",
+      "properties": {},
+      "confidence": 0.95
+    },
+    {
+      "id": "e1",
+      "type": "EVENT",
+      "name": "Founding of Google",
+      "timestamp": "1998-01-01",
+      "properties": {},
+      "confidence": 0.95
+    },
+    {
+      "id": "e2",
+      "type": "PERSON",
+      "name": "Larry Page",
+      "timestamp": null,
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "id": "e3",
+      "type": "PERSON",
+      "name": "Sergey Brin",
+      "timestamp": null,
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "id": "e4",
+      "type": "ORGANIZATION",
+      "name": "Google",
+      "timestamp": "1998-01-01",
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "id": "e5",
+      "type": "ORGANIZATION",
+      "name": "Stanford University",
+      "timestamp": null,
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "id": "e6",
+      "type": "CONCEPT",
+      "name": "PageRank algorithm",
+      "timestamp": null,
+      "properties": {},
+      "confidence": 0.95
+    },
+    {
+      "id": "e7",
+      "type": "LOCATION",
+      "name": "Menlo Park",
+      "timestamp": null,
+      "properties": {},
+      "confidence": 0.9
+    },
+    {
+      "id": "e8",
+      "type": "CONCEPT",
+      "name": "Web search",
+      "timestamp": null,
+      "properties": {},
+      "confidence": 0.9
+    },
+    {
+      "id": "e9",
+      "type": "DATE",
+      "name": "1998",
+      "timestamp": "1998-01-01",
+      "properties": {},
+      "confidence": 1.0
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FATHER_OF",
+      "subject": { "id": "m1", "type": "PERSON", "name": "Michael Wechner" },
+      "object": { "id": "m2", "type": "PERSON", "name": "Levi Brucker" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "FATHER_OF",
+      "subject": { "id": "m1", "type": "PERSON", "name": "Michael Wechner" },
+      "object": { "id": "m3", "type": "PERSON", "name": "Vanya Brucker" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "FATHER_OF",
+      "subject": { "id": "m1", "type": "PERSON", "name": "Michael Wechner" },
+      "object": { "id": "m4", "type": "PERSON", "name": "Ezra Brucker" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "HUSBAND_OF",
+      "subject": { "id": "m1", "type": "PERSON", "name": "Michael Wechner" },
+      "object": { "id": "m5", "type": "PERSON", "name": "Katerina Oliveros" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "BROTHER_OF",
+      "subject": { "id": "m2", "type": "PERSON", "name": "Levi Brucker" },
+      "object": { "id": "m4", "type": "PERSON", "name": "Ezra Brucker" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "BROTHER_OF",
+      "subject": { "id": "m4", "type": "PERSON", "name": "Ezra Brucker" },
+      "object": { "id": "m2", "type": "PERSON", "name": "Levi Brucker" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "BROTHER_OF",
+      "subject": { "id": "m2", "type": "PERSON", "name": "Levi Brucker" },
+      "object": { "id": "m3", "type": "PERSON", "name": "Vanya Brucker" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "BROTHER_OF",
+      "subject": { "id": "m4", "type": "PERSON", "name": "Ezra Brucker" },
+      "object": { "id": "m3", "type": "PERSON", "name": "Vanya Brucker" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "PARTICIPATES_IN",
+      "subject": { "id": "e2", "type": "PERSON", "name": "Larry Page" },
+      "object": { "id": "e1", "type": "EVENT", "name": "Founding of Google" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "PARTICIPATES_IN",
+      "subject": { "id": "e3", "type": "PERSON", "name": "Sergey Brin" },
+      "object": { "id": "e1", "type": "EVENT", "name": "Founding of Google" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "PART_OF",
+      "subject": { "id": "e1", "type": "EVENT", "name": "Founding of Google" },
+      "object": { "id": "e4", "type": "ORGANIZATION", "name": "Google" },
+      "properties": {},
+      "confidence": 1.0
+    },
+    {
+      "type": "PART_OF",
+      "subject": { "id": "e4", "type": "ORGANIZATION", "name": "Google" },
+      "object": { "id": "e5", "type": "ORGANIZATION", "name": "Stanford University" },
+      "properties": {},
+      "confidence": 0.9
+    },
+    {
+      "type": "RELATED_TO",
+      "subject": { "id": "e4", "type": "ORGANIZATION", "name": "Google" },
+      "object": { "id": "e6", "type": "CONCEPT", "name": "PageRank algorithm" },
+      "properties": {},
+      "confidence": 0.95
+    },
+    {
+      "type": "INFLUENCES",
+      "subject": { "id": "e6", "type": "CONCEPT", "name": "PageRank algorithm" },
+      "object": { "id": "e8", "type": "CONCEPT", "name": "Web search" },
+      "properties": {},
+      "confidence": 0.95
+    },
+    {
+      "type": "OCCURS_AT",
+      "subject": { "id": "e4", "type": "ORGANIZATION", "name": "Google" },
+      "object": { "id": "e7", "type": "LOCATION", "name": "Menlo Park" },
+      "properties": { "note": "Initial garage location" },
+      "confidence": 0.9
+    },
+    {
+      "type": "RELATED_TO",
+      "subject": { "id": "e1", "type": "EVENT", "name": "Founding of Google" },
+      "object": { "id": "e9", "type": "DATE", "name": "1998" },
+      "properties": {},
+      "confidence": 1.0
+    }
+  ],
+  "confidence": 0.96
+}
