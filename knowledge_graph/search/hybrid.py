@@ -65,6 +65,9 @@ class HybridSearchEngine:
         
         # Convert distances to similarity scores (1 - normalized distance)
         vector_scores = 1 - (distances - distances.min()) / (distances.max() - distances.min())
+
+        for score in vector_scores:
+            print(f"Vector score: {score}")
         
         # Get graph-based scores for candidates
         print("Get graph-based scores for candidates ...")
@@ -73,13 +76,19 @@ class HybridSearchEngine:
             params['filters'],
             params['include_paths']
         )
+
+        for score in graph_scores:
+            print(f"Graph score: {score}")
         
         # Combine scores
         combined_scores = combine_scores(
             vector_scores,
             graph_scores,
-            params.vector_weight
+            params['vector_weight']
         )
+
+        for score in combined_scores:
+            print(f"Combined score: {score}")
         
         # Sort by combined score
         sorted_indices = np.argsort(combined_scores)[::-1]
@@ -88,10 +97,12 @@ class HybridSearchEngine:
         results = []
         for idx in sorted_indices:
             score = combined_scores[idx]
-            if score < params.min_score:
+            if score < params['min_score']:
+                print(f"Score {score} below min score.")
                 break
                 
-            if len(results) >= params.max_results:
+            if len(results) >= params['max_results']:
+                print(f"results above max results: {len(results)}")
                 break
                 
             node_id = node_ids[idx]
@@ -116,7 +127,7 @@ class HybridSearchEngine:
                 
                 # Get path if requested
                 path = None
-                if params.include_paths:
+                if params['include_paths']:
                     path = self._get_path_to_node(node_id)
                 
                 results.append(SearchResult(
@@ -164,12 +175,13 @@ class HybridSearchEngine:
                 query_parts = ["MATCH (n) WHERE n.id = $node_id"]
                 params = {"node_id": node_id}
                 
-                for key, value in filters.items():
-                    query_parts.append(f"AND n.{key} = ${key}")
-                    params[key] = value
+                #for key, value in filters.items():
+                #    query_parts.append(f"AND n.{key} = ${key}")
+                #    params[key] = value
                 
                 # Add relevance scoring logic
-                query_parts.extend([
+                query_parts_v2 = ["MATCH (n) WHERE n.id = $node_id"]
+                query_parts_v2.extend([
                     # PageRank-style scoring
                     "CALL gds.pageRank.stream('graph')",
                     "YIELD nodeId, score as pageRank",
@@ -197,6 +209,24 @@ class HybridSearchEngine:
                     "pageRank * 0.4 +",
                     "(outDegree + inDegree) * 0.4 / (CASE WHEN outDegree + inDegree > 0 THEN outDegree + inDegree ELSE 1 END) +",
                     "temporalScore * 0.2 as score"
+                ])
+
+                query_parts.extend([
+                    "MATCH (n)",
+                    "OPTIONAL MATCH (n)-[r1]->()",
+                    "WITH n, coalesce(count(r1), 0) AS outDegree",
+                    "OPTIONAL MATCH ()-[r2]->(n)",
+                    "WITH n, outDegree, coalesce(count(r2), 0) AS inDegree",
+
+                    "WITH n, outDegree, inDegree,",
+                    "CASE",
+                    "WHEN n.timestamp IS NOT NULL",
+                    "THEN 1 - abs(timestamp() - datetime(n.timestamp).epochMillis) / (365 * 24 * 60 * 60 * 1000.0)",
+                    "ELSE 0.5",
+                    "END AS temporalScore",
+
+                    "RETURN",
+                    "(outDegree + inDegree) * 0.6 / (CASE WHEN outDegree + inDegree > 0 THEN outDegree + inDegree ELSE 1 END) + temporalScore * 0.4 AS score"
                 ])
                 
                 result = session.run(" ".join(query_parts), params)
