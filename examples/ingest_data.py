@@ -82,6 +82,7 @@ def process_text_file(
                                vectors=np.array([entity["embedding"]], dtype=np.float32),
                                node_ids=[node_id]
                             )
+                            vector_store.save(os.getenv("VECTOR_STORE_PATH", "./vector_store"))
 
                         stats["total_entities"] += 1
                     else:
