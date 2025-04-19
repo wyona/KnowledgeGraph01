@@ -1,0 +1,28 @@
+{
+  "query_type": "ENTITY_SEARCH",
+  "entities": [
+    {
+      "type": "PERSON",
+      "properties": {
+        "name": "Michael"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "type": "hasChild",
+      "direction": "outgoing",
+      "properties": {
+        "isOldest": true
+      }
+    },
+    {
+      "type": "studiesProgram",
+      "direction": "outgoing",
+      "properties": {}
+    }
+  ],
+  "time": {},
+  "limit": 10,
+  "include_paths": false
+}
