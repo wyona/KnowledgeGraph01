@@ -100,6 +100,7 @@ class QueryParser:
         Returns:
             Model completion
         """
+        #print(f"Generate completion using Ollama API: {prompt}")
         response = requests.post(
             f"{self.base_url}/api/generate",
             json={
@@ -128,7 +129,11 @@ class QueryParser:
         prompt = self.prompt.format(query=query)
         
         # Get structured output from LLM
-        llm_output = self._generate_completion(prompt)
+        if False:
+            llm_output = self._generate_completion(prompt)
+        else:
+            with open('mock-data/query-constraints-0.json', 'r') as file:
+                llm_output = file.read()
         
         try:
             # Parse JSON output
