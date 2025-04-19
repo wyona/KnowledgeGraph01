@@ -118,7 +118,7 @@ def main():
                 print()
                 
         except Exception as e:
-            print(f"Error processing query: {e}")
+            print(f"Error processing query '{query}'! Error message: {e}")
         
         print("-" * 50)
         
