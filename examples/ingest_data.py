@@ -58,7 +58,7 @@ def process_text_file(
         
         # Extract entities and relationships
         for text in batch:
-            print(f"\nExtract entities and relationships from text:\n{text}")
+            print(f"\nExtract entities and relationships from text:\n{text}\n")
             result = extractor.extract(text)
             #print(f"\nCompletion result:\n{result.to_dict()}")
             
@@ -113,6 +113,10 @@ def process_text_file(
                     
                 except Exception as e:
                     print(f"Error storing relationship: {e}")
+
+            if True:
+                print("Break text loop")
+                break
     
     stats["processing_time_ms"] = (
         datetime.now() - start_time
@@ -170,6 +174,10 @@ def main():
             
         except Exception as e:
             print(f"Error processing file: {e}")
+
+        if True:
+            print("Break file loop")
+            break
     
     print("\nIngestion complete!")
     print(f"Total entities: {total_stats['total_entities']}")
