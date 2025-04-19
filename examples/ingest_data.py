@@ -2,7 +2,6 @@
 
 import os
 import sys
-import json
 from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Optional
@@ -77,9 +76,10 @@ def process_text_file(
 
                         # Store embedding in vector store
                         if "embedding" in entity:
-                            print(f"\tAdd embedding of entity to vector store ...")
+                            #print(f"Embedding:\n{entity['embedding']}")
+                            print(f"\tAdd embedding of entity '{node_id}' to vector store ...")
                             vector_store.add_vectors(
-                               vectors=np.array([entity["embedding"]]),
+                               vectors=np.array([entity["embedding"]], dtype=np.float32),
                                node_ids=[node_id]
                             )
 
