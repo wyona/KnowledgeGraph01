@@ -78,7 +78,9 @@ def main():
         "Find connections between Turing and artificial intelligence",
     ]
     example_queries = [
-        "Was studiert der älteste Sohn von Michael?",
+        "Was hat Michael studiert?",
+        #"Was hat die Ehefrau von Michael studiert?",
+        #"Was studiert der älteste Sohn von Michael?",
     ]
     
     print("Knowledge Graph Query Examples\n")
