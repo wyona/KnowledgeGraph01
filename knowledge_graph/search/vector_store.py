@@ -13,7 +13,8 @@ class VectorStore:
     def __init__(
         self,
         dimension: int,
-        index_type: str = "IVFFlat",
+        index_type: str = "Flat",
+        #index_type: str = "IVFFlat",
         metric: str = "cosine",
         nlist: int = 100
     ):
