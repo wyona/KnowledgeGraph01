@@ -104,6 +104,7 @@ def main():
                 params={
                     "vector_weight": 0.5,
                     "max_results": 5,
+                    "min_score": 0.5,
                     "include_paths": True,
                     "filters": constraints.to_dict()
                 }
