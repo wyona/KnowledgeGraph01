@@ -79,6 +79,7 @@ def process_text_file(
                             #print(f"Embedding:\n{entity['embedding']}")
                             print(f"\tAdd embedding of entity '{node_id}' to vector store ...")
                             vector_store.add_vectors(
+                               #vectors=np.array([entity["embedding"]]),
                                vectors=np.array([entity["embedding"]], dtype=np.float32),
                                node_ids=[node_id]
                             )
