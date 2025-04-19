@@ -180,8 +180,8 @@ class HybridSearchEngine:
                 #    params[key] = value
                 
                 # Add relevance scoring logic
-                query_parts_v2 = ["MATCH (n) WHERE n.id = $node_id"]
-                query_parts_v2.extend([
+                if False:
+                    query_parts.extend([
                     # PageRank-style scoring
                     "CALL gds.pageRank.stream('graph')",
                     "YIELD nodeId, score as pageRank",
@@ -209,9 +209,9 @@ class HybridSearchEngine:
                     "pageRank * 0.4 +",
                     "(outDegree + inDegree) * 0.4 / (CASE WHEN outDegree + inDegree > 0 THEN outDegree + inDegree ELSE 1 END) +",
                     "temporalScore * 0.2 as score"
-                ])
-
-                query_parts.extend([
+                    ])
+                else:
+                    query_parts.extend([
                     "MATCH (n)",
                     "OPTIONAL MATCH (n)-[r1]->()",
                     "WITH n, coalesce(count(r1), 0) AS outDegree",
@@ -227,7 +227,7 @@ class HybridSearchEngine:
 
                     "RETURN",
                     "(outDegree + inDegree) * 0.6 / (CASE WHEN outDegree + inDegree > 0 THEN outDegree + inDegree ELSE 1 END) + temporalScore * 0.4 AS score"
-                ])
+                    ])
                 
                 result = session.run(" ".join(query_parts), params)
                 record = result.single()
