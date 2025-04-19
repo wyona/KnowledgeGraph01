@@ -49,22 +49,26 @@ class HybridSearchEngine:
         start_time = time.time()
         
         # Use default parameters if none provided
+        print(f"Search parameters: {params}")
         params = params or SearchParams()
         
         # Get initial candidates from vector search
+        print("Get initial candidates from vector search ...")
+        #print(f"Search vector store using embedding '{query_vector}'")
         distances, indices, node_ids = self.vector_store.search(
             query_vector,
-            k=params.max_results * 2  # Get extra candidates for reranking
+            k=params['max_results'] * 2  # Get extra candidates for reranking
         )
         
         # Convert distances to similarity scores (1 - normalized distance)
         vector_scores = 1 - (distances - distances.min()) / (distances.max() - distances.min())
         
         # Get graph-based scores for candidates
+        print("Get graph-based scores for candidates ...")
         graph_scores = self._get_graph_scores(
             node_ids,
-            params.filters,
-            params.include_paths
+            params['filters'],
+            params['include_paths']
         )
         
         # Combine scores
