@@ -69,13 +69,16 @@ def main():
     extractor = LLMExtractor()
     
     # Example queries to demonstrate different types of searches
-    example_queries = [
+    example_queries_1 = [
         "Who founded Google and when?",
         "What contributions did Alan Turing make during World War II?",
         "How is the Turing Award related to computer science?",
         "What major acquisitions has Google made?",
         "Show me the timeline of Google's major events from 1998 to 2015",
         "Find connections between Turing and artificial intelligence",
+    ]
+    example_queries = [
+        "Was studiert der älteste Sohn von Michael?",
     ]
     
     print("Knowledge Graph Query Examples\n")
@@ -86,12 +89,16 @@ def main():
         
         try:
             # Parse query into constraints
+            print("Parse query using LLM ...")
             constraints = query_parser.parse_query(query)
+            print(f"Constraints of parsed query: {constraints}")
             
             # Get query embedding for hybrid search
+            print(f"Get embedding for query '{query}' ...")
             query_embedding = extractor.get_embedding(query)
             
             # Execute hybrid search
+            print(f"Search vector store using embedding '{query_embedding}'")
             results = search_engine.search(
                 query_vector=query_embedding,
                 params={
