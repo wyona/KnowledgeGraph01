@@ -182,51 +182,51 @@ class HybridSearchEngine:
                 # Add relevance scoring logic
                 if False:
                     query_parts.extend([
-                    # PageRank-style scoring
-                    "CALL gds.pageRank.stream('graph')",
-                    "YIELD nodeId, score as pageRank",
-                    "WHERE id(n) = nodeId",
+                        # PageRank-style scoring
+                        "CALL gds.pageRank.stream('graph')",
+                        "YIELD nodeId, score as pageRank",
+                        "WHERE id(n) = nodeId",
                     
-                    # Relationship count scoring
-                    "WITH n, pageRank",
-                    "MATCH (n)-[r]->()",
-                    "WITH n, pageRank, count(r) as outDegree",
-                    "MATCH ()-[r]->(n)",
-                    "WITH n, pageRank, outDegree, count(r) as inDegree",
+                        # Relationship count scoring
+                        "WITH n, pageRank",
+                        "MATCH (n)-[r]->()",
+                        "WITH n, pageRank, count(r) as outDegree",
+                        "MATCH ()-[r]->(n)",
+                        "WITH n, pageRank, outDegree, count(r) as inDegree",
                     
-                    # Temporal scoring if timestamp exists
-                    "OPTIONAL MATCH (n)",
-                    "WHERE n.timestamp IS NOT NULL",
-                    "WITH n, pageRank, outDegree, inDegree,",
-                    "CASE",
-                    "  WHEN n.timestamp IS NOT NULL",
-                    "  THEN 1 - abs(timestamp() - datetime(n.timestamp).epochMillis) / (365 * 24 * 60 * 60 * 1000.0)",
-                    "  ELSE 0.5",
-                    "END as temporalScore",
+                        # Temporal scoring if timestamp exists
+                        "OPTIONAL MATCH (n)",
+                        "WHERE n.timestamp IS NOT NULL",
+                        "WITH n, pageRank, outDegree, inDegree,",
+                        "CASE",
+                        "  WHEN n.timestamp IS NOT NULL",
+                        "  THEN 1 - abs(timestamp() - datetime(n.timestamp).epochMillis) / (365 * 24 * 60 * 60 * 1000.0)",
+                        "  ELSE 0.5",
+                        "END as temporalScore",
                     
-                    # Combine scores
-                    "RETURN",
-                    "pageRank * 0.4 +",
-                    "(outDegree + inDegree) * 0.4 / (CASE WHEN outDegree + inDegree > 0 THEN outDegree + inDegree ELSE 1 END) +",
-                    "temporalScore * 0.2 as score"
+                        # Combine scores
+                        "RETURN",
+                        "pageRank * 0.4 +",
+                        "(outDegree + inDegree) * 0.4 / (CASE WHEN outDegree + inDegree > 0 THEN outDegree + inDegree ELSE 1 END) +",
+                        "temporalScore * 0.2 as score"
                     ])
                 else:
                     query_parts.extend([
-                    "MATCH (n)",
-                    "OPTIONAL MATCH (n)-[r1]->()",
-                    "WITH n, coalesce(count(r1), 0) AS outDegree",
-                    "OPTIONAL MATCH ()-[r2]->(n)",
-                    "WITH n, outDegree, coalesce(count(r2), 0) AS inDegree",
+                        "MATCH (n)",
+                        "OPTIONAL MATCH (n)-[r1]->()",
+                        "WITH n, coalesce(count(r1), 0) AS outDegree",
+                        "OPTIONAL MATCH ()-[r2]->(n)",
+                        "WITH n, outDegree, coalesce(count(r2), 0) AS inDegree",
 
-                    "WITH n, outDegree, inDegree,",
-                    "CASE",
-                    "WHEN n.timestamp IS NOT NULL",
-                    "THEN 1 - abs(timestamp() - datetime(n.timestamp).epochMillis) / (365 * 24 * 60 * 60 * 1000.0)",
-                    "ELSE 0.5",
-                    "END AS temporalScore",
+                        "WITH n, outDegree, inDegree,",
+                        "CASE",
+                        "WHEN n.timestamp IS NOT NULL",
+                        "THEN 1 - abs(timestamp() - datetime(n.timestamp).epochMillis) / (365 * 24 * 60 * 60 * 1000.0)",
+                        "ELSE 0.5",
+                        "END AS temporalScore",
 
-                    "RETURN",
-                    "(outDegree + inDegree) * 0.6 / (CASE WHEN outDegree + inDegree > 0 THEN outDegree + inDegree ELSE 1 END) + temporalScore * 0.4 AS score"
+                        "RETURN",
+                        "(outDegree + inDegree) * 0.6 / (CASE WHEN outDegree + inDegree > 0 THEN outDegree + inDegree ELSE 1 END) + temporalScore * 0.4 AS score"
                     ])
                 
                 result = session.run(" ".join(query_parts), params)
