@@ -145,7 +145,7 @@ class LLMExtractor(BaseExtractor):
         Returns:
             Embedding vector
         """
-        print(f"Get embeddings using Ollama API (Model: {self.embedding_model}) ...")
+        print(f"Get embedding using Ollama API (Model: {self.embedding_model}) ...")
         response = requests.post(
             f"{self.base_url}/api/embeddings",
             json={
