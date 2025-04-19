@@ -178,10 +178,10 @@ class HybridSearchEngine:
                     
                     # Temporal scoring if timestamp exists
                     "OPTIONAL MATCH (n)",
-                    "WHERE exists(n.timestamp)",
+                    "WHERE n.timestamp IS NOT NULL",
                     "WITH n, pageRank, outDegree, inDegree,",
                     "CASE",
-                    "  WHEN exists(n.timestamp)",
+                    "  WHEN n.timestamp IS NOT NULL",
                     "  THEN 1 - abs(timestamp() - datetime(n.timestamp).epochMillis) / (365 * 24 * 60 * 60 * 1000.0)",
                     "  ELSE 0.5",
                     "END as temporalScore",
