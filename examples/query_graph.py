@@ -98,7 +98,7 @@ def main():
             query_embedding = extractor.get_embedding(query)
             
             # Execute hybrid search
-            print(f"Search vector store using embedding '{query_embedding}'")
+            print("Search vector store and knowledge graph ...")
             results = search_engine.search(
                 query_vector=query_embedding,
                 params={
