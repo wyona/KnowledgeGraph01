@@ -12,6 +12,7 @@ ENTITY_TYPES = [
     "EVENT",
     "ORGANIZATION",
     "UNIVERSITY",
+    "ACADEMIC_PROGRAM",
     "CONCEPT",
     "DATE",
     "LOCATION"
@@ -34,6 +35,18 @@ RELATIONSHIP_SCHEMA = {
     "STUDIES_AT": {
         "valid_subjects": ["PERSON"],
         "valid_objects": ["UNIVERSITY"]
+    },
+    "STUDIED_AT": {
+        "valid_subjects": ["PERSON"],
+        "valid_objects": ["UNIVERSITY"]
+    },
+    "STUDIES": {
+        "valid_subjects": ["PERSON"],
+        "valid_objects": ["ACADEMIC_PROGRAM"]
+    },
+    "GRADUATED": {
+        "valid_subjects": ["PERSON"],
+        "valid_objects": ["ACADEMIC_PROGRAM"]
     },
     "HUSBAND_OF": {
         "valid_subjects": ["PERSON"],
@@ -63,6 +76,7 @@ ENTITY_PROPERTIES = {
     "EVENT": ["name", "id", "timestamp"],
     "ORGANIZATION": ["name", "id"],
     "UNIVERSITY": ["name", "id"],
+    "ACADEMIC_PROGRAM": ["name", "id"],
     "CONCEPT": ["name", "id"],
     "DATE": ["value", "id"],
     "LOCATION": ["name", "id"]
