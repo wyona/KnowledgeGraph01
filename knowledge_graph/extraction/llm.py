@@ -154,7 +154,7 @@ class LLMExtractor(BaseExtractor):
             }
         )
         response.raise_for_status()
-        return np.array(response.json()["embedding"])
+        return np.array(response.json()["embedding"], dtype=np.float32)
 
     def extract(self, text: str) -> ExtractionResult:
         """Extract entities and relationships from text using LLM.
