@@ -102,6 +102,9 @@ docker run \
 
 Add GDS plugin https://github.com/neo4j/graph-data-science/releases to folder plugins/
 
+CALL gds.version()
+CALL gds.graph.project('graph','*','*')
+
 ## Usage
 
 ### Data Ingestion
