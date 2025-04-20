@@ -180,12 +180,13 @@ class HybridSearchEngine:
                 #    params[key] = value
                 
                 # Add relevance scoring logic
-                if False:
+                if True:
                     query_parts.extend([
                         # PageRank-style scoring
                         "CALL gds.pageRank.stream('graph')",
                         "YIELD nodeId, score as pageRank",
                         "WHERE id(n) = nodeId",
+                        #"WHERE elementId(n) = elementId(gds.util.asNode(nodeId))",
                     
                         # Relationship count scoring
                         "WITH n, pageRank",
