@@ -78,9 +78,9 @@ def main():
         "Find connections between Turing and artificial intelligence",
     ]
     example_queries = [
-        "Was hat Michael studiert?",
+        #"Was hat Michael studiert?",
         #"Was hat die Ehefrau von Michael studiert?",
-        #"Was studiert der älteste Sohn von Michael?",
+        "Was studiert der älteste Sohn von Michael?",
     ]
     
     print("Knowledge Graph Query Examples\n")
@@ -113,7 +113,7 @@ def main():
             )
             
             # Display results
-            print(f"\nFound {results.total_found} results in {results.query_time_ms:.2f}ms:\n")
+            print(f"\nFound {results.total_found} results for query '{query}' in {results.query_time_ms:.2f}ms:\n")
             
             for j, result in enumerate(results.results, 1):
                 print(f"Result {j}:")
