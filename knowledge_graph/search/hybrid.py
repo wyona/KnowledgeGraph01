@@ -87,8 +87,8 @@ class HybridSearchEngine:
             params['vector_weight']
         )
 
-        for score in combined_scores:
-            print(f"Combined score: {score}")
+        #for score in combined_scores:
+        #    print(f"Combined confidence score: {score}")
         
         # Sort by combined score
         sorted_indices = np.argsort(combined_scores)[::-1]
@@ -96,18 +96,22 @@ class HybridSearchEngine:
         # Build results
         results = []
         for idx in sorted_indices:
-            score = combined_scores[idx]
-            if score < params['min_score']:
-                print(f"Score {score} below min score.")
-                break
-                
             if len(results) >= params['max_results']:
-                print(f"results above max results: {len(results)}")
+                print(f"Do not add any more results as the maximum number of results has been reached: {len(results)}")
                 break
-                
+
+            score = combined_scores[idx]
+
             node_id = node_ids[idx]
             if node_id is None:
+                print(f"No entity id for {idx}!")
                 continue
+
+            print(f"Combined confidence score of entity '{node_id}': {score}")
+
+            if score < params['min_score']:
+                print(f"Stop adding results, because score {score} below min score {params['min_score']}.")
+                break
                 
             # Get node properties and path
             with self.neo4j_driver.session() as session:
