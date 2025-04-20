@@ -5,7 +5,7 @@
       "type": "PERSON",
       "name": "Michael Wechner",
       "timestamp": "1998-01-01",
-      "properties": {},
+      "properties": {"isEntryPoint":true},
       "confidence": 0.95
     },
     {
