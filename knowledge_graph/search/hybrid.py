@@ -251,6 +251,7 @@ class HybridSearchEngine:
         Returns:
             List of nodes and relationships in path, or None if no path found
         """
+        print(f"Find shortest path to node '{node_id}' from relevant entry points ...")
         with self.neo4j_driver.session() as session:
             # Find shortest path from any entry point
             result = session.run(
@@ -275,6 +276,7 @@ class HybridSearchEngine:
             path_elements = []
             
             for element in path:
+                print(f"Element type: '{element.type}'")
                 if hasattr(element, "start"):  # Relationship
                     path_elements.append({
                         "type": "relationship",
@@ -284,7 +286,8 @@ class HybridSearchEngine:
                 else:  # Node
                     path_elements.append({
                         "type": "node",
-                        "labels": list(element.labels),
+                        #"labels": list(element.labels),
+                        "labels": ["TODO"],
                         "properties": dict(element)
                     })
             
