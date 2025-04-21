@@ -32,6 +32,55 @@ class HybridSearchEngine:
             auth=(neo4j_user, neo4j_password)
         )
 
+    def search_v2(
+        self,
+        query: str,
+        query_vector: np.ndarray,
+        params: Optional[SearchParams] = None
+    ) -> SearchResults:
+        """
+        TODO
+        """
+        results = []
+
+        start_time = time.time()
+
+        # Use default parameters if none provided
+        print(f"Search parameters: {params}")
+        params = params or SearchParams()
+
+        # Get initial candidates from vector search
+        print(f"Get initial candidates from vector search (Index type: {self.vector_store.index_type}, Metric: {self.vector_store.metric}) ...")
+        # print(f"Search vector store using embedding '{query_vector}'")
+        distances, indices, node_ids = self.vector_store.search(
+            query_vector,
+            k=params['max_results'] * 2  # Get extra candidates for reranking
+        )
+
+        # If metric is cosine, then higher value means more similar (cos(0) = 1, cos(pi/2) = 0)
+        for distance in distances:
+                print(f"Distance found: {distance}")
+
+        for index in indices:
+                print(f"Index found: {index}")
+
+        for node_id in node_ids:
+            print(f"Initial candidate found: {node_id}")
+
+        # Convert distances to similarity scores (1 - normalized distance)
+        vector_scores = 1 - (distances - distances.min()) / (distances.max() - distances.min())
+
+        for score in vector_scores:
+            print(f"Vector score: {score}")
+
+        query_time = (time.time() - start_time) * 1000  # Convert to ms
+
+        return SearchResults(
+            results=results,
+            total_found=len(results),
+            query_time_ms=query_time
+        )
+
     def search(
         self,
         query_vector: np.ndarray,
@@ -53,9 +102,9 @@ class HybridSearchEngine:
         params = params or SearchParams()
         
         # Get initial candidates from vector search
-        print("Get initial candidates from vector search ...")
+        print(f"Get initial candidates from vector search (Index type: {self.vector_store.index_type}, Metric: {self.vector_store.metric}) ...")
         #print(f"Search vector store using embedding '{query_vector}'")
-        distances, indices, node_ids = self.vector_store.search(
+        distances, indices_not_needed, node_ids = self.vector_store.search(
             query_vector,
             k=params['max_results'] * 2  # Get extra candidates for reranking
         )
