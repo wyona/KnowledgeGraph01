@@ -4,6 +4,7 @@
       "id": "m1",
       "type": "PERSON",
       "name": "Michael Wechner",
+      "description":"Swiss theoretical physicist, film director and computer scientist.",
       "timestamp": "1998-01-01",
       "properties": {"isEntryPoint":true},
       "confidence": 0.95
