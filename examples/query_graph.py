@@ -101,16 +101,29 @@ def main():
             
             # Execute hybrid search
             print("Search vector store and knowledge graph ...")
-            results = search_engine.search(
-                query_vector=query_embedding,
-                params={
-                    "vector_weight": 0.5,
-                    "max_results": 5,
-                    "min_score": 0.5,
-                    "include_paths": True,
-                    "filters": constraints.to_dict()
-                }
-            )
+            if True:
+                results = search_engine.search(
+                    query_vector=query_embedding,
+                    params={
+                        "vector_weight": 0.5,
+                        "max_results": 5,
+                        "min_score": 0.5,
+                        "include_paths": True,
+                        "filters": constraints.to_dict()
+                    }
+                )
+            else:
+                results = search_engine.search_v2(
+                    query=query,
+                    query_vector=query_embedding,
+                    params={
+                        "vector_weight": 0.5,
+                        "max_results": 5,
+                        "min_score": 0.5,
+                        "include_paths": True,
+                        "filters": constraints.to_dict()
+                    }
+                )
             
             # Display results
             print(f"\nFound {results.total_found} results for query '{query}' in {results.query_time_ms:.2f}ms:\n")
