@@ -56,6 +56,24 @@ class HybridSearchEngine:
         for candidate in candidates:
             print(f"Candidate: {candidate}")
 
+        node_ids = [row[0] for row in candidates]
+        #for node_id in node_ids:
+        #    print(f"Node ID: {node_id}")
+
+        self._get_subgraphs(node_ids[:1]) # Only very first node / entity
+        #self._get_subgraphs(node_ids)
+
+        # Get graph-based scores for candidates
+        #print("Get graph-based scores for candidates ...")
+        #graph_scores = self._get_graph_scores(
+        #    candidates[0],
+        #    params['filters'],
+        #    params['include_paths']
+        #)
+
+        #for score in graph_scores:
+        #    print(f"Graph score: {score}")
+
         query_time = (time.time() - start_time) * 1000  # Convert to ms
 
         return SearchResults(
@@ -213,6 +231,32 @@ class HybridSearchEngine:
             total_found=len(results),
             query_time_ms=query_time
         )
+
+    def _get_subgraphs(
+        self,
+        node_ids: List[str]
+    ):
+        """
+        Get subgraphs
+        """
+        print(f"\nGet subgraphs for nodes / entities ...")
+
+        query_parts = ["MATCH (n) WHERE n.id = $node_id"]
+        query_parts.extend([
+            "RETURN n"
+        ])
+
+        with self.neo4j_driver.session() as session:
+            for node_id in node_ids:
+                print(f"Traverse graph starting at node '{node_id}' ...")
+                params = {"node_id": node_id}
+                result = session.run(" ".join(query_parts), params)
+                record = result.single()
+                #print(f"Record for node '{node_id}': {record}")
+                name = record['n']['name']
+                print(f"Record for node '{node_id}': {name}")
+
+        return None
 
     def _get_graph_scores(
         self,
