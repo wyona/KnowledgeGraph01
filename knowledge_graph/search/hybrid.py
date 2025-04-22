@@ -8,6 +8,10 @@ from neo4j import GraphDatabase
 from . import SearchResult, SearchResults, SearchParams, combine_scores
 from .vector_store import VectorStore
 
+from knowledge_graph.extraction.llm import LLMExtractor
+
+extractor = LLMExtractor()
+
 class HybridSearchEngine:
     """Search engine combining FAISS and Neo4j capabilities."""
     
@@ -40,6 +44,8 @@ class HybridSearchEngine:
     ) -> SearchResults:
         """
         TODO
+
+        :param query: Search query, e.g. "Was studiert der älteste Sohn von Michael?"
         """
         results = []
 
@@ -63,6 +69,16 @@ class HybridSearchEngine:
         subgraph = self._get_subgraphs(node_ids[:1]) # Only very first node / entity
         print(f"Subgraph: {subgraph}")
         #subgraphs = self._get_subgraphs(node_ids)
+
+        prompt = f"""
+            Which of the following subgraph is the most relevant relationship to answer the following question
+
+            QUESTION: {query}
+
+            SUBGRAPH: {subgraph}
+            """
+        relevant_entities = extractor.get_relevant_entities(prompt)
+        print(f"Relevant entities: {relevant_entities}")
 
         query_time = (time.time() - start_time) * 1000  # Convert to ms
 
