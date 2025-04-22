@@ -60,8 +60,9 @@ class HybridSearchEngine:
         #for node_id in node_ids:
         #    print(f"Node ID: {node_id}")
 
-        self._get_subgraphs(node_ids[:1]) # Only very first node / entity
-        #self._get_subgraphs(node_ids)
+        subgraph = self._get_subgraphs(node_ids[:1]) # Only very first node / entity
+        print(f"Subgraph: {subgraph}")
+        #subgraphs = self._get_subgraphs(node_ids)
 
         # Get graph-based scores for candidates
         #print("Get graph-based scores for candidates ...")
@@ -251,6 +252,16 @@ class HybridSearchEngine:
 
         with self.neo4j_driver.session() as session:
             for node_id in node_ids:
+                subgraph = {
+                    "entity": {
+                        "id": node_id,
+                        "type": "PERSON",
+                        "label": "Michael Wechner",
+                        "description": "TODO",
+                        "properties": {"date-of-birth":"1969.02.16"},
+                        "relationships": []
+                    }
+                }
                 print(f"Traverse graph starting at node '{node_id}' ...")
                 params = {"node_id": node_id}
                 result = session.run(" ".join(query_parts), params)
@@ -262,6 +273,10 @@ class HybridSearchEngine:
                     # INFO: In a Neo4j relationship, 'type' is not a property but rather an attribute of the relationship itself
                     relationship_type = record['relationship'].type
                     print(f"Neighbour of node '{node_id}': {name}, {id} (Enity type: {type}, Relationship type: {relationship_type})")
+                    relationship = {"type": relationship_type, "entity":{"id": id, "type": type, "label": name}}
+                    subgraph["entity"]["relationships"].append(relationship)
+                if True:
+                    return subgraph
 
         return None
 
