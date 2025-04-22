@@ -156,6 +156,13 @@ class LLMExtractor(BaseExtractor):
         response.raise_for_status()
         return np.array(response.json()["embedding"], dtype=np.float32)
 
+    def get_relevant_entities(self, prompt: str) -> List[Entity]:
+        print(f"Get relevant entities using prompt '{prompt}' ...")
+
+        response = self._generate_completion(prompt)
+        print(f"Response: {response}")
+        return None
+
     def extract(self, text: str) -> ExtractionResult:
         """Extract entities and relationships from text using LLM.
         
