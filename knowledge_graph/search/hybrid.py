@@ -314,8 +314,13 @@ class HybridSearchEngine:
                 type = record['neighbor']['type']
                 # INFO: In a Neo4j relationship, 'type' is not a property but rather an attribute of the relationship itself
                 relationship_type = record['relationship'].type
+                neighbour_properties = {}
+                for key, value in record["neighbor"].items():
+                    #print(f"Property: {key}: {value}")
+                    # TODO: Ignore certain properties ...
+                    neighbour_properties[key] = value
                 print(f"Neighbour of node '{node_id}': {name}, {id} (Enity type: {type}, Relationship type: {relationship_type})")
-                relationship = {"type": relationship_type, "entity":{"id": id, "type": type, "label": name}}
+                relationship = {"type": relationship_type, "entity":{"id": id, "type": type, "label": name, "properties": neighbour_properties}}
                 subgraph["entity"]["relationships"].append(relationship)
 
             return subgraph
