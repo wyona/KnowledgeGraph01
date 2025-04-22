@@ -55,7 +55,7 @@ class HybridSearchEngine:
         print(f"Search parameters: {params}")
         params = params or SearchParams()
 
-        # Get initial candidates using vector search
+        # 1) Get initial candidates using vector search
         print(f"Get initial candidates from vector search (Index type: {self.vector_store.index_type}, Metric: {self.vector_store.metric}) ...")
         candidates = self._get_candidates_from_vector_store(query_vector, params)
 
@@ -66,10 +66,12 @@ class HybridSearchEngine:
         #for node_id in node_ids:
         #    print(f"Node ID: {node_id}")
 
+        # 2) Get subgraph of candidate(s)
         subgraph = self._get_subgraphs(node_ids[:1]) # Only very first node / entity
         print(f"Subgraph: {subgraph}")
         #subgraphs = self._get_subgraphs(node_ids)
 
+        # 3) Get relevant entities / relationships to answer question
         prompt = f"""
             Which of the following subgraph is the most relevant relationship to answer the following question
 

@@ -82,7 +82,8 @@ class LLMExtractor(BaseExtractor):
     def __init__(
         self,
         #model_name: str = "mistral",
-        model_name: str = "llama2",
+        #model_name: str = "llama2",
+        model_name: str = "deepseek-r1",
         base_url: str = "http://localhost:11434",
         embedding_model: str = "nomic-embed-text",
         embedding_dim: int = 768
