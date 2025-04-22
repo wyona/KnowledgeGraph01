@@ -75,12 +75,19 @@ def process_text_file(
                         )
 
                         # Store embedding in vector store
+                        embedding = None
                         if "embedding" in entity:
-                            #print(f"Embedding:\n{entity['embedding']}")
+                            embedding = entity["embedding"]
+                        else:
+                            print(f"\tEntity '{entity['name']}' does not have an embedding yet, therefore get one ...")
+                            embedding = extractor.get_embedding(entity["name"]).tolist()
+
+                        if embedding is not None:
+                            #print(f"\tEmbedding: {embedding}")
                             print(f"\tAdd embedding of entity '{node_id}' to vector store ...")
                             vector_store.add_vectors(
                                #vectors=np.array([entity["embedding"]]),
-                               vectors=np.array([entity["embedding"]], dtype=np.float32),
+                               vectors=np.array([embedding], dtype=np.float32),
                                node_ids=[node_id]
                             )
                             vector_store.save(os.getenv("VECTOR_STORE_PATH", "./vector_store"))
