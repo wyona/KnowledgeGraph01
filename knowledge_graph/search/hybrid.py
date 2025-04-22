@@ -241,23 +241,22 @@ class HybridSearchEngine:
         """
         print(f"\nGet subgraphs for nodes / entities ...")
 
-        query_parts = ["MATCH (n) WHERE n.id = $node_id"]
-        query_parts.extend([
-            "RETURN n"
-        ])
+        #query_parts = ["MATCH (n) WHERE n.id = $node_id"]
+        #query_parts.extend([
+        #    "RETURN n"
+        #])
 
-        # MATCH (n {id: 'm1'})--(neighbor)
-        # RETURN neighbor
+        query_parts = ["MATCH (n {id: $node_id})--(neighbor)"]
+        query_parts.extend(["RETURN neighbor"])
 
         with self.neo4j_driver.session() as session:
             for node_id in node_ids:
                 print(f"Traverse graph starting at node '{node_id}' ...")
                 params = {"node_id": node_id}
                 result = session.run(" ".join(query_parts), params)
-                record = result.single()
-                #print(f"Record for node '{node_id}': {record}")
-                name = record['n']['name']
-                print(f"Record for node '{node_id}': {name}")
+                for record in result:
+                    name = record['neighbor']['name']
+                    print(f"Neighbour of node '{node_id}': {name}")
 
         return None
 
