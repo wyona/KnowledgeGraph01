@@ -73,7 +73,9 @@ class HybridSearchEngine:
 
         # 3) Get relevant entities / relationships to answer question
         prompt = f"""
-            Which of the following subgraph is the most relevant relationship to answer the following question
+            Which is the most relevant relationship or entity of the following subgraph to answer the following question,
+            whereas if the subgraph itself does not contain enough information to answer the question, then specify which
+            information is missing.
 
             QUESTION: {query}
 
