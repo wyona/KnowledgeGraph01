@@ -81,6 +81,8 @@ def main():
         #"Was hat Michael studiert?",
         #"Was hat die Ehefrau von Michael studiert?",
         "Was studiert der älteste Sohn von Michael?",
+        #"What is the recipe of the cookies?",
+        #"Where does the youngest son of Michael live?",
     ]
     
     print("Knowledge Graph Query Examples\n")
@@ -101,7 +103,7 @@ def main():
             
             # Execute hybrid search
             print("Search vector store and knowledge graph ...")
-            if True:
+            if False:
                 results = search_engine.search(
                     query_vector=query_embedding,
                     params={
