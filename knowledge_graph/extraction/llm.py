@@ -145,7 +145,7 @@ class LLMExtractor(BaseExtractor):
         Returns:
             Embedding vector
         """
-        print(f"Get embedding using Ollama API (Model: {self.embedding_model}) ...")
+        print(f"Get embedding for text '{text}' using Ollama API (Model: {self.embedding_model}) ...")
         response = requests.post(
             f"{self.base_url}/api/embeddings",
             json={
@@ -197,9 +197,11 @@ class LLMExtractor(BaseExtractor):
                 if "properties" in entity:
                     entity_dict.update(entity["properties"])
                     
-                # Add embedding
-                entity_dict["embedding"] = self.get_embedding(entity["name"]).tolist()
-                    
+                # Add embedding to entity
+                if False:
+                    print(f"Get embedding for '{entity['name']}' and add to entity ...")
+                    entity_dict["embedding"] = self.get_embedding(entity["name"]).tolist()
+
                 entities.append(entity_dict)
                 
             relationships = []
