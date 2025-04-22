@@ -259,7 +259,8 @@ class HybridSearchEngine:
                     name = record['neighbor']['name']
                     id = record['neighbor']['id']
                     type = record['neighbor']['type']
-                    relationship_type = record['relationship']['type']
+                    # INFO: In a Neo4j relationship, 'type' is not a property but rather an attribute of the relationship itself
+                    relationship_type = record['relationship'].type
                     print(f"Neighbour of node '{node_id}': {name}, {id} (Enity type: {type}, Relationship type: {relationship_type})")
 
         return None
