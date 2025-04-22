@@ -160,8 +160,10 @@ class LLMExtractor(BaseExtractor):
     def get_relevant_entities(self, prompt: str) -> List[Entity]:
         print(f"Get relevant entities using prompt '{prompt}' ...")
 
-        response = self._generate_completion(prompt)
-        print(f"Response: {response}")
+        if True:
+            response = self._generate_completion(prompt)
+            print(f"Response: {response}")
+
         return None
 
     def extract(self, text: str) -> ExtractionResult:
