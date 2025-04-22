@@ -64,17 +64,6 @@ class HybridSearchEngine:
         print(f"Subgraph: {subgraph}")
         #subgraphs = self._get_subgraphs(node_ids)
 
-        # Get graph-based scores for candidates
-        #print("Get graph-based scores for candidates ...")
-        #graph_scores = self._get_graph_scores(
-        #    candidates[0],
-        #    params['filters'],
-        #    params['include_paths']
-        #)
-
-        #for score in graph_scores:
-        #    print(f"Graph score: {score}")
-
         query_time = (time.time() - start_time) * 1000  # Convert to ms
 
         return SearchResults(
@@ -245,55 +234,73 @@ class HybridSearchEngine:
         :returns: List of subgraphs
         """
         print(f"\nGet subgraphs for nodes / entities ...")
+        for node_id in node_ids:
+            subgraph = self._get_subgraph(node_id)
+            if True:
+                return subgraph
+
+        return None
+
+    def _get_subgraph(
+        self,
+        node_id: str
+    ):
+        """
+        Get subgraph
+
+        :param node_id: Node id
+
+        :returns: Subgraph
+        """
+        print(f"\nGet subgraph for node / entity {node_id} ...")
 
         with self.neo4j_driver.session() as session:
-            for node_id in node_ids:
-                params = {"node_id": node_id}
+            params = {"node_id": node_id}
 
-                query_parts = ["MATCH (n) WHERE n.id = $node_id"]
-                query_parts.extend(["RETURN n"])
-                result = session.run(" ".join(query_parts), params)
-                entity_type = None
-                entity_name = None
-                entity_properties = None
-                for record in result:
-                    #print(f"Record {record}")
-                    entity_type = record["n"]["type"]
-                    entity_name = record["n"]["name"]
-                    entity_properties = {}
-                    for key, value in record["n"].items():
-                        #print(f"Property: {key}: {value}")
-                        # TODO: Ignore certain properties ...
-                        entity_properties[key] = value
+            query_parts = ["MATCH (n) WHERE n.id = $node_id"]
+            query_parts.extend(["RETURN n"])
+            result = session.run(" ".join(query_parts), params)
+            entity_type = None
+            entity_name = None
+            entity_properties = None
+            for record in result:
+                #print(f"Record {record}")
+                entity_type = record["n"]["type"]
+                entity_name = record["n"]["name"]
+                entity_properties = {}
+                for key, value in record["n"].items():
+                    #print(f"Property: {key}: {value}")
+                    # TODO: Ignore certain properties ...
+                    entity_properties[key] = value
 
 
-                query_parts = ["MATCH (n {id: $node_id})-[relationship]-(neighbor)"]
-                query_parts.extend(["RETURN neighbor, relationship"])
-                subgraph = {
-                    "entity": {
-                        "id": node_id,
-                        "type": entity_type,
-                        "label": entity_name,
-                        "description": "TODO",
-                        "properties": entity_properties,
-                        "relationships": []
-                    }
+            query_parts = ["MATCH (n {id: $node_id})-[relationship]-(neighbor)"]
+            query_parts.extend(["RETURN neighbor, relationship"])
+            subgraph = {
+                "entity": {
+                    "id": node_id,
+                    "type": entity_type,
+                    "label": entity_name,
+                    "description": "TODO",
+                    "properties": entity_properties,
+                    "relationships": []
                 }
+            }
 
-                print(f"Traverse graph starting at node '{node_id}' ...")
-                result = session.run(" ".join(query_parts), params)
-                for record in result:
-                    #print(f"Record: {record}")
-                    name = record['neighbor']['name']
-                    id = record['neighbor']['id']
-                    type = record['neighbor']['type']
-                    # INFO: In a Neo4j relationship, 'type' is not a property but rather an attribute of the relationship itself
-                    relationship_type = record['relationship'].type
-                    print(f"Neighbour of node '{node_id}': {name}, {id} (Enity type: {type}, Relationship type: {relationship_type})")
-                    relationship = {"type": relationship_type, "entity":{"id": id, "type": type, "label": name}}
-                    subgraph["entity"]["relationships"].append(relationship)
-                if True:
-                    return subgraph
+            print(f"Traverse graph starting at node '{node_id}' ...")
+            result = session.run(" ".join(query_parts), params)
+            for record in result:
+                #print(f"Record: {record}")
+                name = record['neighbor']['name']
+                id = record['neighbor']['id']
+                type = record['neighbor']['type']
+                # INFO: In a Neo4j relationship, 'type' is not a property but rather an attribute of the relationship itself
+                relationship_type = record['relationship'].type
+                print(f"Neighbour of node '{node_id}': {name}, {id} (Enity type: {type}, Relationship type: {relationship_type})")
+                relationship = {"type": relationship_type, "entity":{"id": id, "type": type, "label": name}}
+                subgraph["entity"]["relationships"].append(relationship)
+
+            return subgraph
 
         return None
 
