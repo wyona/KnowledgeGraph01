@@ -246,6 +246,9 @@ class HybridSearchEngine:
             "RETURN n"
         ])
 
+        # MATCH (n {id: 'm1'})--(neighbor)
+        # RETURN neighbor
+
         with self.neo4j_driver.session() as session:
             for node_id in node_ids:
                 print(f"Traverse graph starting at node '{node_id}' ...")
