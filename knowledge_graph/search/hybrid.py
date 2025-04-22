@@ -246,8 +246,8 @@ class HybridSearchEngine:
         #    "RETURN n"
         #])
 
-        query_parts = ["MATCH (n {id: $node_id})--(neighbor)"]
-        query_parts.extend(["RETURN neighbor"])
+        query_parts = ["MATCH (n {id: $node_id})-[relationship]-(neighbor)"]
+        query_parts.extend(["RETURN neighbor, relationship"])
 
         with self.neo4j_driver.session() as session:
             for node_id in node_ids:
@@ -255,8 +255,12 @@ class HybridSearchEngine:
                 params = {"node_id": node_id}
                 result = session.run(" ".join(query_parts), params)
                 for record in result:
+                    #print(f"Record: {record}")
                     name = record['neighbor']['name']
-                    print(f"Neighbour of node '{node_id}': {name}")
+                    id = record['neighbor']['id']
+                    type = record['neighbor']['type']
+                    relationship_type = record['relationship']['type']
+                    print(f"Neighbour of node '{node_id}': {name}, {id} (Enity type: {type}, Relationship type: {relationship_type})")
 
         return None
 
