@@ -58,7 +58,6 @@ def process_text_file(
         
         # Extract entities and relationships
         for text in batch:
-            print(f"\nExtract entities and relationships from text:\n{text}\n")
             result = extractor.extract(text)
             #print(f"\nCompletion result:\n{result.to_dict()}")
             
