@@ -181,9 +181,13 @@ class LLMExtractor(BaseExtractor):
         
         # Get structured output from LLM
         if False:
+            print(f"\nExtract entities and relationships from text using a LLM:\n{text}\n")
             llm_output = self._generate_completion(prompt)
         else:
-            with open('mock-data/entities-relationship-1.json', 'r') as file:
+            file_mock_entities_relationships = "mock-data/entities-relationship-1.json"
+            #file_mock_entities_relationships = "mock-data/entities-relationship-uzh.json"
+            print(f"Use mock entities and relationships '{file_mock_entities_relationships}' ...")
+            with open(file_mock_entities_relationships, 'r') as file:
                 llm_output = file.read()
         
         try:
