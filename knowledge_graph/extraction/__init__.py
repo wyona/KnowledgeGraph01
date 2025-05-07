@@ -28,9 +28,17 @@ RELATIONSHIP_SCHEMA = {
         "valid_subjects": ["PERSON", "ORGANIZATION", "EVENT", "CONCEPT"],
         "valid_objects": ["PERSON", "ORGANIZATION", "EVENT", "CONCEPT"]
     },
+    "LOCATED_IN": {
+        "valid_subjects": ["UNIVERSITY","PERSON"],
+        "valid_objects": ["LOCATION"]
+    },
     "FATHER_OF": {
         "valid_subjects": ["PERSON"],
         "valid_objects": ["PERSON"]
+    },
+    "WORKS_AT": {
+        "valid_subjects": ["PERSON"],
+        "valid_objects": ["UNIVERSITY"]
     },
     "STUDIES_AT": {
         "valid_subjects": ["PERSON"],
