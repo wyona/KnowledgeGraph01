@@ -50,7 +50,7 @@ class BaseExtractor(ABC):
             True if relationship is valid, False otherwise
         """
         if "type" not in relationship or relationship["type"] not in self.relationship_schema:
-            print(f"Relationship {relationship['subject']} not valid because of missing type")
+            print(f"WARNING: Relationship {relationship['subject']} not valid because of missing relationship type")
             return False
 
         schema = self.relationship_schema[relationship["type"]]
