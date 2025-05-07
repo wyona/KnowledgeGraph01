@@ -13,6 +13,8 @@ ENTITY_TYPES = [
     "ORGANIZATION",
     "UNIVERSITY",
     "ACADEMIC_PROGRAM",
+    "ACTION",
+    "WEBSITE",
     "CONCEPT",
     "DATE",
     "LOCATION"
@@ -39,6 +41,14 @@ RELATIONSHIP_SCHEMA = {
     "WORKS_AT": {
         "valid_subjects": ["PERSON"],
         "valid_objects": ["UNIVERSITY"]
+    },
+    "IMPLEMENTS": {
+        "valid_subjects": ["WEBSITE"],
+        "valid_objects": ["ACTION"]
+    },
+    "WEBSITE_OF": {
+        "valid_subjects": ["UNIVERSITY","PERSON"],
+        "valid_objects": ["WEBSITE"]
     },
     "STUDIES_AT": {
         "valid_subjects": ["PERSON"],
@@ -85,6 +95,8 @@ ENTITY_PROPERTIES = {
     "ORGANIZATION": ["name", "id"],
     "UNIVERSITY": ["name", "id"],
     "ACADEMIC_PROGRAM": ["name", "id"],
+    "ACTION": ["name", "id"],
+    "WEBSITE": ["name", "id"],
     "CONCEPT": ["name", "id"],
     "DATE": ["value", "id"],
     "LOCATION": ["name", "id"]
