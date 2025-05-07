@@ -47,6 +47,7 @@ class HybridSearchEngine:
 
         :param query: Search query, e.g. "Was studiert der älteste Sohn von Michael?"
         """
+        print("\n\nUse search implementation version 2 ...")
         results = []
 
         start_time = time.time()
@@ -56,7 +57,7 @@ class HybridSearchEngine:
         params = params or SearchParams()
 
         # 1) Get initial candidates using vector search
-        print(f"Get initial candidates from vector search (Index type: {self.vector_store.index_type}, Metric: {self.vector_store.metric}) ...")
+        print(f"\n\nGet initial candidates from vector search (Index type: {self.vector_store.index_type}, Metric: {self.vector_store.metric}) ...")
         candidates = self._get_candidates_from_vector_store(query_vector, params)
 
         for candidate in candidates:
