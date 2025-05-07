@@ -93,7 +93,7 @@ def main():
         
         try:
             # Parse query into constraints
-            print("Parse query using LLM ...")
+            print("Parse query, in order to get query constraints ...")
             constraints = query_parser.parse_query(query)
             print(f"Constraints of parsed query: {constraints}")
             
@@ -102,7 +102,7 @@ def main():
             query_embedding = extractor.get_embedding(query)
             
             # Execute hybrid search
-            print("Search vector store and knowledge graph ...")
+            print("\n\nSearch vector store and knowledge graph ...")
             if False:
                 results = search_engine.search(
                     query_vector=query_embedding,
