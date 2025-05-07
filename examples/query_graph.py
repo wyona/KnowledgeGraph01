@@ -80,7 +80,8 @@ def main():
     example_queries = [
         #"Was hat Michael studiert?",
         #"Was hat die Ehefrau von Michael studiert?",
-        "Was studiert der älteste Sohn von Michael?",
+        #"Was studiert der älteste Sohn von Michael?",
+        "Wie kann Michael Wechner sein Passwort ändern?",
         #"What is the recipe of the cookies?",
         #"Where does the youngest son of Michael live?",
     ]
