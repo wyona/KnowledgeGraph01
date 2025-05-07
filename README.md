@@ -4,6 +4,12 @@ A hybrid knowledge graph system integrating Neo4j for graph storage, FAISS for v
 
 See the discussion at https://www.reddit.com/r/LLMDevs/comments/1iw36cu/people_using_graphllms_how_do_you_traverse_the/
 
+## Quick Start
+
+* source .venv/bin/activate
+* python3 ingest_data.py
+* python3 query_graph.py
+
 ## Features
 
 - **Graph Construction & Data Ingestion**
