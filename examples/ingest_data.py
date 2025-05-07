@@ -62,6 +62,7 @@ def process_text_file(
             #print(f"\nCompletion result:\n{result.to_dict()}")
             
             # Store entities
+            print(f"\n\nAdd {len(result.entities)} entities ...")
             for entity in result.entities:
                 try:
                     # Create node in Neo4j
@@ -99,6 +100,7 @@ def process_text_file(
                     print(f"Error storing entity: {e}")
             
             # Store relationships
+            print(f"\n\nAdd {len(result.relationships)} relationships ...")
             for rel in result.relationships:
                 try:
                     response = input(f"\nDo you want to add relationship '{rel}' to Knowledge Graph / Neo4j? (YES/no): ").strip().lower()
