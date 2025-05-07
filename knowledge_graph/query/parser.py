@@ -117,7 +117,8 @@ class QueryParser:
         return response.json()["response"]
 
     def parse_query(self, query: str) -> QueryConstraints:
-        """Parse natural language query into structured constraints.
+        """
+        Parse natural language query into structured constraints.
         
         Args:
             query: Natural language query string
@@ -130,9 +131,12 @@ class QueryParser:
         
         # Get structured output from LLM
         if False:
+            print(f"Parse query using LLM, in order to get query constraints ...")
             llm_output = self._generate_completion(prompt)
         else:
-            with open('mock-data/query-constraints-0.json', 'r') as file:
+            file_mock_query_constraints = "mock-data/query-constraints-0.json"
+            print(f"Use mock query constraints '{file_mock_query_constraints}' instead using LLM ...")
+            with open(file_mock_query_constraints, 'r') as file:
                 llm_output = file.read()
         
         try:
